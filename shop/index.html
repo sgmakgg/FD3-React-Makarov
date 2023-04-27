@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IShop</title>
+
+
+
+</head>
+<body>
+    <div id="container"></div>
+
+    <script src="https://unpkg.com/react@15/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+
+    <script src="iShop.js"></script>
+    <link rel="stylesheet" type="text/css" href="iShop.css">
+
+
+    <script>
+        class Product{
+            constructor(name, price, imageURL, warehouseQuantity, code) {
+                this.name = name;
+                this.price = price;
+                this.imageURL = imageURL;
+                this.warehouseQuantity = warehouseQuantity;
+                this.code = code;
+            }
+        };
+
+        let shopProducts = [
+            new Product(
+                'Milk',
+                1.50,
+                'images/milk.png',
+                100,
+                100),
+            new Product(
+                'Olive oil',
+                20.22,
+                'images/olive-oil.png',
+                100500,
+                200),
+            new Product(
+                'Bread',
+                0.25,
+                'images/bread.png',
+                300,
+                300)];
+        let shopName = 'iShop';
+
+        ReactDOM.render(
+            React.createElement(iShopVariable,
+             {products:shopProducts,shopName:shopName}),
+            document.getElementById('container')
+        );
+    </script>
+</body>
+</html>
