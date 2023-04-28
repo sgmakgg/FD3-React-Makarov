@@ -5,7 +5,8 @@ table, th, td {
 .iShopTable{
     width: 100%;
 }
-.rowImage{
+
+.iShopTable .rowImage{
     width: 5%;
     height: auto;
 }

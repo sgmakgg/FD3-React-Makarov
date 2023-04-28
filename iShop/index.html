@@ -13,8 +13,8 @@
     <script src="https://unpkg.com/react@15/dist/react.js"></script>
     <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
 
-    <script src="iShop.js"></script>
-    <link rel="stylesheet" type="text/css" href="iShop.css">
+    <script src="IShopTable.js"></script>
+    <link rel="stylesheet" type="text/css" href="IShopTable.css">
 
 
     <script>
@@ -47,11 +47,12 @@
                 'images/bread.png',
                 300,
                 300)];
-        let shopName = 'iShop';
+
+        const shopName = 'iShop';
 
         ReactDOM.render(
-            React.createElement(iShopVariable,
-             {products:shopProducts,shopName:shopName}),
+            React.createElement(iShop,
+                {products:shopProducts, shopName:shopName}),
             document.getElementById('container')
         );
     </script>
