@@ -1,6 +1,6 @@
 let iShopBody = React.createClass({
 
-    displayName: 'iShopTableBody',
+    displayName: 'iShopTableBodyComponent',
 
     propTypes: {
         products: React.PropTypes.arrayOf(

@@ -1,6 +1,6 @@
 let iShopTable = React.createClass({
 
-    displayName: 'iShopComponentDisplayName',
+    displayName: 'iShopTableComponent',
 
     propTypes: {
         shopName: React.PropTypes.string.isRequired,
