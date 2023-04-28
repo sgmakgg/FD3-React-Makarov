@@ -16,6 +16,9 @@
     <script src="IShopTable.js"></script>
     <link rel="stylesheet" type="text/css" href="IShopTable.css">
 
+    <script src="IShopBody.js"></script>
+    <link rel="stylesheet" type="text/css" href="IShopBody.css">
+
 
     <script>
         class Product{
@@ -51,7 +54,7 @@
         const shopName = 'iShop';
 
         ReactDOM.render(
-            React.createElement(iShop,
+            React.createElement(iShopTable,
                 {products:shopProducts, shopName:shopName}),
             document.getElementById('container')
         );
