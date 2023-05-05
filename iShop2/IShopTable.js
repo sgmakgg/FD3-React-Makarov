@@ -40,9 +40,10 @@ let iShopTable = React.createClass({
                 React.DOM.th({className:'productControl'}, 'Control'));
 
         let products = [];
-        products = this.state.iShopProducts.map(product =>
+        products = this.state.iShopProducts.map((product, index) =>
             React.createElement(iShopProduct,
-                {name: product.name, 
+                {key: index,
+                name: product.name, 
                 price: product.price, 
                 imageURL: product.imageURL,
                 warehouseQuantity: product.warehouseQuantity,
@@ -51,7 +52,7 @@ let iShopTable = React.createClass({
                 callBackSelectedRow: this.rowModification,
                 callBackDeleteRow: this.rowModification
             })
-            );
+        );
 
         return React.DOM.div({className:'IShop'},
             React.DOM.h1( {className: 'ShopName'}, this.props.shopName ),
