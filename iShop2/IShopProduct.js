@@ -18,6 +18,7 @@ let iShopProduct = React.createClass({
     },
 
     deleteRow: function(EO){
+        EO.stopPropagation();
         if(confirm('Would you like to delete?'))
             this.props.callBackDeleteRow(this.props.code, true);
     },
@@ -26,7 +27,7 @@ let iShopProduct = React.createClass({
 
         return React.DOM.tr({key: this.props.code, 
                             className:'iShopProduct', 
-                            onDoubleClick: this.rowSelected, 
+                            onClick: this.rowSelected, 
                             style: {background: 
                                 (this.props.selectedRowCode === this.props.code) ? 'red' : 'white'}},
         React.DOM.td({className:'productName'}, this.props.name),
