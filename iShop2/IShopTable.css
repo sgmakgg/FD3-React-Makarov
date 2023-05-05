@@ -1,0 +1,12 @@
+table, th, td{
+    border:1px solid black;
+  }
+
+.iShopTable{
+    width: 100%;
+}
+
+.iShopTable .rowImage{
+    width: 5%;
+    height: auto;
+}
