@@ -1,6 +1,7 @@
 let filter = React.createClass({
 
     displayName: 'filterComponent',
+    
     propTypes:{
         defaultwords: React.PropTypes.arrayOf(React.PropTypes.string).isRequired    
     },
@@ -15,13 +16,11 @@ let filter = React.createClass({
       },
 
     checkBoxChanged: function(EO) {
-        this.state.checkboxState = EO.target.checked;
-        this.sortArray();
-      },
+        this.setState({checkboxState: EO.target.checked}, this.sortArray);
+    },
 
     inputTextChanged: function(EO){
-        this.state.inputTextValue = EO.target.value;
-        this.sortArray();
+        this.setState({inputTextValue: EO.target.value}, this.sortArray);
     },
 
     sortArray: function(){
@@ -46,17 +45,15 @@ let filter = React.createClass({
 
     render: function(){
 
-        let verticalList = this.state.textAreaValue.map(v => 
-            React.DOM.li(null, v));
+        let verticalList = this.state.textAreaValue.map((v, index) => 
+            React.DOM.li({key: index}, v));
 
         return React.DOM.div({className:'Filter'}, 
                 React.DOM.div({className:'Block1'},
                     React.DOM.input({type:'checkbox', 
-                                    defaultChecked: this.state.checkboxState,
                                     checked: this.state.checkboxState,
                                     onChange: this.checkBoxChanged}),
                     React.DOM.input({type:'text', 
-                                    defaultValue: this.state.inputTextValue,
                                     value: this.state.inputTextValue, 
                                     onChange: this.inputTextChanged}),
                     React.DOM.button({onClick: this.setDefaultValues}, 'Reset')
