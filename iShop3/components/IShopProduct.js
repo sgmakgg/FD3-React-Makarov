@@ -1,48 +1,49 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import DOM from 'react-dom-factories';
+
 import './IShopProduct.css';
 
-let iShopProduct = React.createClass({
+class IShopProduct extends React.Component{
 
-    displayName: 'iShopProductComponent',
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        imageURL: PropTypes.string.isRequired,
+        warehouseQuantity: PropTypes.number.isRequired,
+        code: PropTypes.number.isRequired,
+        selectedRowCode: PropTypes.number,
+        callBackSelectedRow: PropTypes.func.isRequired,
+        callBackDeleteRow: PropTypes.func.isRequired
+    };
 
-    propTypes: {
-        name: React.PropTypes.string.isRequired, 
-        price: React.PropTypes.number.isRequired, 
-        imageURL: React.PropTypes.string.isRequired, 
-        warehouseQuantity: React.PropTypes.number.isRequired, 
-        code: React.PropTypes.number.isRequired,
-        selectedRowCode: React.PropTypes.number,
-        callBackSelectedRow: React.PropTypes.func.isRequired,
-        callBackDeleteRow: React.PropTypes.func.isRequired
-    },
-
-    rowSelected: function(EO){
+    rowSelected = (EO) =>{
         this.props.callBackSelectedRow(this.props.code);
-    },
+    };
 
-    deleteRow: function(EO){
+    deleteRow = (EO) =>{
         EO.stopPropagation();
         if(confirm('Would you like to delete?'))
             this.props.callBackDeleteRow(this.props.code, true);
-    },
+    };
 
-    render: function(){
+    render(){
 
-        return React.DOM.tr({key: this.props.code, 
+        return DOM.tr({key: this.props.code,
                             className:'iShopProduct', 
                             onClick: this.rowSelected, 
                             style: {background: 
                                 (this.props.selectedRowCode === this.props.code) ? 'red' : 'white'}},
-        React.DOM.td({className:'productName'}, this.props.name),
-        React.DOM.td({className:'productPrice'}, this.props.price),
-        React.DOM.td({className:'productPhoto'}, 
-            React.DOM.img({src:this.props.imageURL, 
+        DOM.td({className:'productName'}, this.props.name),
+        DOM.td({className:'productPrice'}, this.props.price),
+        DOM.td({className:'productPhoto'},
+            DOM.img({src:this.props.imageURL,
                 alt:this.props.name, className:'rowImage'})),
-        React.DOM.td({className:'productQuantity'}, this.props.warehouseQuantity),
-        React.DOM.td({className:'productDelete'}, 
-            React.DOM.button({onClick: this.deleteRow}, 'Delete'))
+        DOM.td({className:'productQuantity'}, this.props.warehouseQuantity),
+        DOM.td({className:'productDelete'},
+            DOM.button({onClick: this.deleteRow}, 'Delete'))
         );
-    },
-});
+    };
+}
 
-export default iShopProduct;
+export default IShopProduct;

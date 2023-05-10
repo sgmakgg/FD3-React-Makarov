@@ -1,54 +1,51 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import DOM from 'react-dom-factories';
 
 import './IShopTable.css';
+import IShopProduct from "./IShopProduct";
 
-import iShopProduct from "./IShopProduct";
 
+class IShopTable extends React.Component{
 
-let iShopTable = React.createClass({
-
-    displayName: 'iShopTableComponent',
-
-    propTypes: {
-        shopName: React.PropTypes.string.isRequired,
-        products: React.PropTypes.arrayOf(
-            React.PropTypes.shape({
-                name: React.PropTypes.string.isRequired, 
-                price: React.PropTypes.number.isRequired, 
-                imageURL: React.PropTypes.string.isRequired, 
-                warehouseQuantity: React.PropTypes.number.isRequired, 
-                code: React.PropTypes.number.isRequired
+    static propTypes = {
+        shopName: PropTypes.string.isRequired,
+        products: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                price: PropTypes.number.isRequired,
+                imageURL: PropTypes.string.isRequired,
+                warehouseQuantity: PropTypes.number.isRequired,
+                code: PropTypes.number.isRequired
             })
         )
-    },
+    };
 
-    getInitialState: function() {
-        return { 
-            iShopProducts: this.props.products,
-            selectedRowCode: null
+    state = {
+        iShopProducts: this.props.products,
+        selectedRowCode: null
         };
-    },
 
-    rowModification: function(code, deleteRow = false) {
+    rowModification = (code, deleteRow = false) => {
         if(deleteRow)
-            this.setState({iShopProducts: this.state.iShopProducts.filter(item => item.code !== code)});
+            this.setState({iShopProducts: this.state.
+                iShopProducts.filter(item => item.code !== code)});
         else
             this.setState( {selectedRowCode:code} );
-    },
+    };
 
-    render: function(){
+    render(){
 
         let tableHead = 
-            React.DOM.tr({className:'tableHead'},
-                React.DOM.th({className:'productName'}, 'Name'),
-                React.DOM.th({className:'productPrice'}, 'Price'),
-                React.DOM.th({className:'productPhoto'}, 'Photo'),
-                React.DOM.th({className:'productQuantity'}, 'Warehouse'),
-                React.DOM.th({className:'productControl'}, 'Control'));
+            DOM.tr({className:'tableHead'},
+                DOM.th({className:'productName'}, 'Name'),
+                DOM.th({className:'productPrice'}, 'Price'),
+                DOM.th({className:'productPhoto'}, 'Photo'),
+                DOM.th({className:'productQuantity'}, 'Warehouse'),
+                DOM.th({className:'productControl'}, 'Control'));
 
-        let products = [];
-        products = this.state.iShopProducts.map((product, index) =>
-            React.createElement(iShopProduct,
+        let products = this.state.iShopProducts.map((product, index) =>
+            React.createElement(IShopProduct,
                 {key: index,
                 name: product.name, 
                 price: product.price, 
@@ -61,16 +58,16 @@ let iShopTable = React.createClass({
             })
         );
 
-        return React.DOM.div({className:'IShop'},
-            React.DOM.h1( {className: 'ShopName'}, this.props.shopName ),
-            React.DOM.table( {className:'iShopTable'}, 
-                React.DOM.thead({className:'iShopTableHead'}, tableHead),
-                React.DOM.tbody({className:'iShopTableBody'}, products)),
+        return DOM.div({className:'IShop'},
+            DOM.h1( {className: 'ShopName'}, this.props.shopName ),
+            DOM.table( {className:'iShopTable'},
+                DOM.thead({className:'iShopTableHead'}, tableHead),
+                DOM.tbody({className:'iShopTableBody'}, products)),
         );
-    },
-});
+    };
+}
 
-export default iShopTable;
+export default IShopTable;
 
 
 
