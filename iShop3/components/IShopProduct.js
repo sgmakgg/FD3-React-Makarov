@@ -38,8 +38,9 @@ class IShopProduct extends React.Component{
                         <img className='RowImage' src={this.props.imageURL} alt={this.props.name}/>
                     </td>
                     <td className='ProductQuantity'>{this.props.warehouseQuantity}</td>
-                    <td className='ProductDelete'>
-                        <button onClick={this.deleteRow}>Delete</button>
+                    <td className='ProductControl'>
+                        <span><button>Edit</button></span>
+                        <span><button onClick={this.deleteRow}>Delete</button></span>
                     </td>
             </tr>
         );

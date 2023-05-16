@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 
 import './IShopTable.css';
 import IShopProduct from "./IShopProduct";
+import UneditableProductCard from "./UneditableProductCard";
 
 
 class IShopTable extends React.Component{
@@ -55,13 +56,24 @@ class IShopTable extends React.Component{
         );
 
         return(
-            <div className='IShop'>
-                <h1 className='ShopName'>{this.props.shopName }</h1>
-                <table className='IShopTable'>
-                    <thead className='IShopTableHead'>{tableHead}</thead>
-                    <tbody className='iShopTableBody'>{products}</tbody>
-                </table>
-            </div>
+            <Fragment>
+                <div className='IShop'>
+                    <h1 className='ShopName'>{this.props.shopName }</h1>
+                    <table className='IShopTable'>
+                        <thead className='IShopTableHead'>{tableHead}</thead>
+                        <tbody className='iShopTableBody'>{products}</tbody>
+                    </table>
+                    <button>{"New\xa0product"}</button>
+                </div>
+                <div className='ProductCard'>
+                    {
+                        (this.state.selectedRowCode !== null) &&
+                        <UneditableProductCard product={
+                            this.state.iShopProducts.filter(
+                                item => item.code === this.state.selectedRowCode)[0]}/>
+                    }
+                </div>
+            </Fragment>
         );
     };
 }
