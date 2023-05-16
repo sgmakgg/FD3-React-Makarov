@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DOM from 'react-dom-factories';
 
 import './IShopProduct.css';
 
@@ -28,20 +27,21 @@ class IShopProduct extends React.Component{
     };
 
     render(){
-
-        return DOM.tr({key: this.props.code,
-                            className:'iShopProduct', 
-                            onClick: this.rowSelected, 
-                            style: {background: 
-                                (this.props.selectedRowCode === this.props.code) ? 'red' : 'white'}},
-        DOM.td({className:'productName'}, this.props.name),
-        DOM.td({className:'productPrice'}, this.props.price),
-        DOM.td({className:'productPhoto'},
-            DOM.img({src:this.props.imageURL,
-                alt:this.props.name, className:'rowImage'})),
-        DOM.td({className:'productQuantity'}, this.props.warehouseQuantity),
-        DOM.td({className:'productDelete'},
-            DOM.button({onClick: this.deleteRow}, 'Delete'))
+        return(
+            <tr className='iShopProduct'
+                key={this.props.code}
+                onClick={this.rowSelected}
+                style={{background: (this.props.selectedRowCode === this.props.code) ? 'red' : 'white'}}>
+                    <td className='ProductName'>{this.props.name}</td>
+                    <td className='ProductPrice'>{this.props.price}</td>
+                    <td className='ProductPhoto'>
+                        <img className='RowImage' src={this.props.imageURL} alt={this.props.name}/>
+                    </td>
+                    <td className='ProductQuantity'>{this.props.warehouseQuantity}</td>
+                    <td className='ProductDelete'>
+                        <button onClick={this.deleteRow}>Delete</button>
+                    </td>
+            </tr>
         );
     };
 }

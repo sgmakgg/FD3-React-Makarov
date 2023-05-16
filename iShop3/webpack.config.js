@@ -10,15 +10,15 @@ module.exports = {
     entry: "./App.js", // основной файл приложения
     output:{
         path: __dirname, // путь к каталогу выходных файлов
-        filename: "bundle.js"  // название создаваемого файла 
+        filename: "bundle.js"  // название создаваемого файла
     },
     devtool:'source-map',
     module:{
         rules:[
             {
-                test: /\.js$/, // какие файлы обрабатывать
+                test: /\.jsx?$/, // какие файлы обрабатывать
                 exclude: /node_modules/, // какие файлы пропускать
-                use: { loader: "babel-loader" } // какой загрузчик использовать
+                use: { loader: "babel-loader" }
             },
             {
                 test: /\.css$/,

@@ -2,11 +2,11 @@ table, th, td{
     border:1px solid black;
   }
 
-.iShopTable{
+.IShopTable{
     width: 100%;
 }
 
-.iShopTable .rowImage{
+.IShopTable .RowImage{
     width: 5%;
     height: auto;
 }
