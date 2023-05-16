@@ -8,7 +8,6 @@ import shopProducts from './defaultData.json';
 const shopName = 'iShop3';
 
 ReactDOM.render(
-    React.createElement(IShopTable,
-        {products:shopProducts, shopName:shopName}),
+    <IShopTable products={shopProducts} shopName={shopName}/>,
     document.getElementById('container')
 );
