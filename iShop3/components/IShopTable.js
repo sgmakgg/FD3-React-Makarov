@@ -32,8 +32,9 @@ class IShopTable extends React.Component{
     rowModification = (code, deleteRow = false) => {
         if(deleteRow)
             this.setState({iShopProducts: this.state.
-                iShopProducts.filter(item => item.code !== code)},
-                                    this.zeroingSelectedRowCode());
+                iShopProducts.filter(item => item.code !== code),
+                    selectedRowCode:(code === this.state.selectedRowCode) ?
+                                            null : this.state.selectedRowCode});
         else
             this.setState( {selectedRowCode:code} );
     };
@@ -43,8 +44,6 @@ class IShopTable extends React.Component{
             editingProductCard:this.state.iShopProducts.filter(item =>
                 item.code === code)});
     };
-
-    zeroingSelectedRowCode = () => this.state.selectedRowCode = null;
 
     render(){
         let tableHead = <tr className='TableHead'>
