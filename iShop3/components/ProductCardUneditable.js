@@ -1,9 +1,9 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 
-import './UneditableProductCard.css';
+import './ProductCardUneditable.css';
 
-const UneditableProductCard = props => {
+const ProductCardUneditable = props => {
     return <Fragment>
                 <h1>{props.product.name}</h1>
                 <p>{props.product.name}</p>
@@ -11,7 +11,7 @@ const UneditableProductCard = props => {
             </Fragment>
 };
 
-UneditableProductCard.propTypes = {
+ProductCardUneditable.propTypes = {
         product: PropTypes.shape({
             name: PropTypes.string.isRequired,
             price: PropTypes.number.isRequired,
@@ -21,4 +21,4 @@ UneditableProductCard.propTypes = {
         })
     };
 
-export default UneditableProductCard;
+export default ProductCardUneditable;

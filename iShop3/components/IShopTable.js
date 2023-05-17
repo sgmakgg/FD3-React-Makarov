@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import './IShopTable.css';
 import IShopProduct from "./IShopProduct";
-import UneditableProductCard from "./UneditableProductCard";
+import ProductCardUneditable from "./ProductCardUneditable";
+import ProductCardEditable from "./ProductCardEditable";
 
 
 class IShopTable extends React.Component{
@@ -23,16 +24,27 @@ class IShopTable extends React.Component{
 
     state = {
         iShopProducts: this.props.products,
-        selectedRowCode: null
+        selectedRowCode: null,
+        editProductCardMode: false,
+        editingProductCard: null
         };
 
     rowModification = (code, deleteRow = false) => {
         if(deleteRow)
             this.setState({iShopProducts: this.state.
-                iShopProducts.filter(item => item.code !== code)});
+                iShopProducts.filter(item => item.code !== code)},
+                                    this.zeroingSelectedRowCode());
         else
             this.setState( {selectedRowCode:code} );
     };
+
+    editProduct = (code) =>{
+        this.setState({editProductCardMode:true,
+            editingProductCard:this.state.iShopProducts.filter(item =>
+                item.code === code)});
+    };
+
+    zeroingSelectedRowCode = () => this.state.selectedRowCode = null;
 
     render(){
         let tableHead = <tr className='TableHead'>
@@ -51,8 +63,9 @@ class IShopTable extends React.Component{
                           warehouseQuantity={product.warehouseQuantity}
                           code={product.code}
                           selectedRowCode={this.state.selectedRowCode}
-                          callBackSelectedRow={this.rowModification}
-                          callBackDeleteRow={this.rowModification}/>
+                          callBackSelectingRow={this.rowModification}
+                          callBackDeletingRow={this.rowModification}
+                          callbackEditingRow={this.editProduct}/>
         );
 
         return(
@@ -67,10 +80,14 @@ class IShopTable extends React.Component{
                 </div>
                 <div className='ProductCard'>
                     {
-                        (this.state.selectedRowCode !== null) &&
-                        <UneditableProductCard product={
-                            this.state.iShopProducts.filter(
-                                item => item.code === this.state.selectedRowCode)[0]}/>
+                        (this.state.editProductCardMode === true)
+                            ?
+                            <ProductCardEditable product={this.state.editingProductCard[0]}/>
+                            :
+                            (this.state.selectedRowCode !== null) &&
+                            <ProductCardUneditable product={
+                                this.state.iShopProducts.filter(
+                                    item => item.code === this.state.selectedRowCode)[0]}/>
                     }
                 </div>
             </Fragment>

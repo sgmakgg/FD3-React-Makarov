@@ -12,19 +12,25 @@ class IShopProduct extends React.Component{
         warehouseQuantity: PropTypes.number.isRequired,
         code: PropTypes.number.isRequired,
         selectedRowCode: PropTypes.number,
-        callBackSelectedRow: PropTypes.func.isRequired,
-        callBackDeleteRow: PropTypes.func.isRequired
+        callBackSelectingRow: PropTypes.func.isRequired,
+        callBackDeletingRow: PropTypes.func.isRequired,
+        callbackEditingRow: PropTypes.func.isRequired
     };
 
     rowSelected = (EO) =>{
-        this.props.callBackSelectedRow(this.props.code);
+        this.props.callBackSelectingRow(this.props.code);
     };
 
     deleteRow = (EO) =>{
         EO.stopPropagation();
         if(confirm('Would you like to delete?'))
-            this.props.callBackDeleteRow(this.props.code, true);
+            this.props.callBackDeletingRow(this.props.code, true);
     };
+
+    editeRow = (EO) =>{
+        EO.stopPropagation();
+        this.props.callbackEditingRow(this.props.code);
+    }
 
     render(){
         return(
@@ -39,7 +45,7 @@ class IShopProduct extends React.Component{
                     </td>
                     <td className='ProductQuantity'>{this.props.warehouseQuantity}</td>
                     <td className='ProductControl'>
-                        <span><button>Edit</button></span>
+                        <span><button onClick={this.editeRow}>Edit</button></span>
                         <span><button onClick={this.deleteRow}>Delete</button></span>
                     </td>
             </tr>
