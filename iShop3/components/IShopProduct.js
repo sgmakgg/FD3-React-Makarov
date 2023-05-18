@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './IShopProduct.css';
+import {changeCardPropsEvents, isEditing} from "../ProductCardEditableEvents";
 
 class IShopProduct extends React.Component{
 
@@ -15,6 +16,23 @@ class IShopProduct extends React.Component{
         callBackSelectingRow: PropTypes.func.isRequired,
         callBackDeletingRow: PropTypes.func.isRequired,
         callbackEditingRow: PropTypes.func.isRequired
+    };
+
+    state = {
+        buttonsDisabled:false
+    };
+
+    componentDidMount() {
+        changeCardPropsEvents.addListener(isEditing, this.disableButtons);
+    };
+
+    componentWillUnmount() {
+        changeCardPropsEvents.removeListener(isEditing, this.disableButtons);
+    };
+
+    disableButtons = (flag) => {
+        console.log(isEditing + this.state.buttonsDisabled);
+        this.setState({buttonsDisabled:flag});
     };
 
     rowSelected = (EO) =>{
@@ -45,8 +63,8 @@ class IShopProduct extends React.Component{
                     </td>
                     <td className='ProductQuantity'>{this.props.warehouseQuantity}</td>
                     <td className='ProductControl'>
-                        <span><button onClick={this.editeRow}>Edit</button></span>
-                        <span><button onClick={this.deleteRow}>Delete</button></span>
+                        <span><button onClick={this.editeRow} disabled={this.state.buttonsDisabled}>Edit</button></span>
+                        <span><button onClick={this.deleteRow} disabled={this.state.buttonsDisabled}>Delete</button></span>
                     </td>
             </tr>
         );
