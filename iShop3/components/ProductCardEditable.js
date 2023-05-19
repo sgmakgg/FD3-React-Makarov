@@ -1,5 +1,6 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
+
 import {changeCardPropsEvents, isEditing} from "../ProductCardEditableEvents";
 
 class ProductCardEditable extends React.Component{
@@ -32,11 +33,11 @@ class ProductCardEditable extends React.Component{
     componentDidMount() {
         if(this.props.isNewProductAdding)
             this.setState({isSavingDisabled:true});
-    }
+    };
 
     componentWillUnmount() {
         changeCardPropsEvents.emit(isEditing, false);
-    }
+    };
 
     static getDerivedStateFromProps(props, state){
         if(!state.addNewProduct){
@@ -51,7 +52,7 @@ class ProductCardEditable extends React.Component{
             }
         }
         return null;
-    }
+    };
 
     isEditing = (EO) => {
         if(EO.target.value === '')
@@ -217,7 +218,6 @@ class ProductCardEditable extends React.Component{
                             onClick={this.cancelModification}/>
                 </form>
             </Fragment>
-
         const newProductForm =
             <Fragment>
                 <h1>{'Add\xa0new\xa0product'}</h1>

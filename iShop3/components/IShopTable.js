@@ -57,7 +57,6 @@ class IShopTable extends React.Component{
                     editProductCardMode: false} );
             }
         }
-
     };
 
     editProduct = (code) =>{

@@ -47,7 +47,7 @@ class IShopProduct extends React.Component{
     editeRow = (EO) =>{
         EO.stopPropagation();
         this.props.callbackEditingRow(this.props.code);
-    }
+    };
 
     render(){
         return(
