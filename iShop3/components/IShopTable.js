@@ -68,11 +68,14 @@ class IShopTable extends React.Component{
             item.code === code);
         this.setState({editProductCardMode:true,
             editingProductCard:temp,
-            addNewProduct:false});
+            addNewProduct:false,
+            selectedRowCode:null});
     };
 
     addNewProduct = () =>{
-        this.setState({addNewProduct:true, editProductCardMode:false});
+        this.setState({addNewProduct:true,
+                            editProductCardMode:false,
+                            selectedRowCode:null});
     };
 
     saveProduct = (product) =>{
