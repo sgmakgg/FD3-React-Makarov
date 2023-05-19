@@ -14,7 +14,8 @@ class ProductCardEditable extends React.Component{
         }),
         isNewProductAdding: PropTypes.bool,
         callBackSaveProduct: PropTypes.func.isRequired,
-        callBackUpdateProduct: PropTypes.func.isRequired
+        callBackUpdateProduct: PropTypes.func.isRequired,
+        callBackCancelModification: PropTypes.func.isRequired
     };
 
     state ={
@@ -49,7 +50,6 @@ class ProductCardEditable extends React.Component{
                 }
             }
         }
-
         return null;
     }
 
@@ -90,7 +90,7 @@ class ProductCardEditable extends React.Component{
     setProductPrice = (EO) =>{
         this.isEditing(EO);
         this.isSavingDisabled(EO);
-        this.setState({price:parseInt(EO.target.value)}, this.checkStateProductProps);
+        this.setState({price:parseFloat(EO.target.value)}, this.checkStateProductProps);
     };
 
     setProductURL = (EO) =>{
@@ -119,7 +119,7 @@ class ProductCardEditable extends React.Component{
             warehouseQuantity: this.state.warehouseQuantity,
             code: this.state.code};
         this.props.callBackSaveProduct(product);
-    }
+    };
 
     updateItem = () => {
         let product = {
@@ -129,7 +129,28 @@ class ProductCardEditable extends React.Component{
             warehouseQuantity: this.state.warehouseQuantity,
             code: this.state.code};
         this.props.callBackUpdateProduct(product);
-    }
+    };
+
+    cancelModification = () =>{
+        this.props.callBackCancelModification();
+    };
+
+    debounceSerie = (func,interval,immediate) => {
+        let timer;
+        return function() {
+            let context=this, args=arguments;
+            let later=function() {
+                timer=null;
+                if ( !immediate )
+                    func.apply(context,args);
+            };
+            let callNow=immediate&&!timer;
+            clearTimeout(timer);
+            timer=setTimeout(later,interval);
+            if ( callNow )
+                func.apply(context,args);
+        };
+    };
 
     render(){
         const editableForm =
@@ -141,7 +162,9 @@ class ProductCardEditable extends React.Component{
                         <input type='text'
                                name='name'
                                defaultValue={this.props.product.name}
-                               onChange={this.setProductName}
+                               onKeyUp={this.debounceSerie(
+                                        this.setProductName,
+                                        500, false)}
                                key={this.props.product.name}/>
                         {
                             (this.state.name === "") &&
@@ -152,7 +175,9 @@ class ProductCardEditable extends React.Component{
                         <input type='text'
                                name='price'
                                defaultValue={this.props.product.price}
-                               onChange={this.setProductPrice}
+                               onKeyUp={this.debounceSerie(
+                                        this.setProductPrice,
+                                       500, false)}
                                key={this.props.product.price}/>
                         {
                             (isNaN(this.state.price)) &&
@@ -163,7 +188,9 @@ class ProductCardEditable extends React.Component{
                         <input type='text'
                                name='imageURL'
                                defaultValue={this.props.product.imageURL}
-                               onChange={this.setProductURL}
+                               onKeyUp={this.debounceSerie(
+                                   this.setProductURL,
+                                   500, false)}
                                key={this.props.product.imageURL}/>
                         {
                             (this.state.imageURL === "") &&
@@ -174,7 +201,9 @@ class ProductCardEditable extends React.Component{
                         <input type='text'
                                name='warehouseQuantity'
                                defaultValue={this.props.product.warehouseQuantity}
-                               onChange={this.setWarehouseQuantity}
+                               onKeyUp={this.debounceSerie(
+                                   this.setWarehouseQuantity,
+                                   500, false)}
                                key={this.props.product.warehouseQuantity}/>
                         {
                             (isNaN(this.state.warehouseQuantity)) &&
@@ -184,7 +213,8 @@ class ProductCardEditable extends React.Component{
                     <input type='button' value='Save'
                            disabled={this.state.isSavingDisabled}
                            onClick={this.updateItem}/>
-                    <input type='button' value='Cancel'/>
+                    <input type='button' value='Cancel'
+                            onClick={this.cancelModification}/>
                 </form>
             </Fragment>
 
@@ -196,7 +226,9 @@ class ProductCardEditable extends React.Component{
                         <input type='text'
                                name='code'
                                defaultValue={this.props.product.code}
-                               onChange={this.setProductCode}/>
+                               onKeyUp={this.debounceSerie(
+                                   this.setProductCode,
+                                   500, false)}/>
                         {
                             (isNaN(this.state.code) || this.state.code === this.props.product.code) &&
                             <span style={{color: 'red'}}>Please, fill the field. It must be number</span>
@@ -206,7 +238,9 @@ class ProductCardEditable extends React.Component{
                         <input type='text'
                                name='name'
                                defaultValue={this.props.product.name}
-                               onChange={this.setProductName}/>
+                               onKeyUp={this.debounceSerie(
+                                   this.setProductName,
+                                   500, false)}/>
                         {
                             (this.state.name === "" || this.state.name === this.props.product.name) &&
                             <span style={{color: 'red'}}>Please, fill the field. It must be string</span>
@@ -216,7 +250,9 @@ class ProductCardEditable extends React.Component{
                         <input type='text'
                                name='price'
                                defaultValue={this.props.product.price}
-                               onChange={this.setProductPrice}/>
+                               onKeyUp={this.debounceSerie(
+                                   this.setProductPrice,
+                                   500, false)}/>
                         {
                             (isNaN(this.state.price) || this.state.price === this.props.product.price) &&
                             <span style={{color: 'red'}}>Please, fill the field. It must be number</span>
@@ -226,7 +262,9 @@ class ProductCardEditable extends React.Component{
                         <input type='text'
                                name='imageURL'
                                defaultValue={this.props.product.imageURL}
-                               onChange={this.setProductURL}/>
+                               onKeyUp={this.debounceSerie(
+                                   this.setProductURL,
+                                   500, false)}/>
                         {
                             (this.state.imageURL === "" || this.state.imageURL === this.props.product.imageURL) &&
                             <span style={{color: 'red'}}>Please, fill the field. It must be string</span>
@@ -236,7 +274,9 @@ class ProductCardEditable extends React.Component{
                         <input type='text'
                                name='warehouseQuantity'
                                defaultValue={this.props.product.warehouseQuantity}
-                               onChange={this.setWarehouseQuantity}/>
+                               onKeyUp={this.debounceSerie(
+                                   this.setWarehouseQuantity,
+                                   500, false)}/>
                         {
                             (isNaN(this.state.warehouseQuantity) || this.state.warehouseQuantity === this.props.product.warehouseQuantity) &&
                             <span style={{color: 'red'}}>Please, fill the field. It must be number</span>
@@ -245,7 +285,8 @@ class ProductCardEditable extends React.Component{
                     <input type='button' value='Save'
                            disabled={this.state.isSavingDisabled}
                            onClick={this.saveItem}/>
-                    <input type='button' value='Cancel'/>
+                    <input type='button' value='Cancel'
+                           onClick={this.cancelModification}/>
                 </form>
             </Fragment>
 

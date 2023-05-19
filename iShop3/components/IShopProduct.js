@@ -31,7 +31,6 @@ class IShopProduct extends React.Component{
     };
 
     disableButtons = (flag) => {
-        console.log(isEditing + this.state.buttonsDisabled);
         this.setState({buttonsDisabled:flag});
     };
 

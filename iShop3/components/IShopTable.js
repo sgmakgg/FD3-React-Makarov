@@ -70,7 +70,7 @@ class IShopTable extends React.Component{
         this.setState({editProductCardMode:true,
             editingProductCard:temp,
             addNewProduct:false});
-    }
+    };
 
     addNewProduct = () =>{
         this.setState({addNewProduct:true, editProductCardMode:false});
@@ -79,11 +79,8 @@ class IShopTable extends React.Component{
     saveProduct = (product) =>{
         let array = this.state.iShopProducts.slice();
         array.push(product);
-        this.setState({iShopProducts: array,
-                editProductCardMode: false,
-                editingProductCard: null,
-                addNewProduct: false})
-    }
+        this.setState({iShopProducts: array}, this.backToMainPage)
+    };
 
     updateProduct = (product) =>{
         let array = this.state.iShopProducts.slice();
@@ -92,11 +89,15 @@ class IShopTable extends React.Component{
                 array[index] = product;
             }
         });
-        this.setState({iShopProducts: array,
-            editProductCardMode: false,
+        this.setState({iShopProducts: array}, this.backToMainPage)
+    };
+
+    backToMainPage = () =>{
+        this.setState({editProductCardMode: false,
             editingProductCard: null,
-            addNewProduct: false})
-    }
+            addNewProduct: false,
+            selectedRowCode:null})
+    };
 
     render(){
         let tableHead = <tr className='TableHead'>
@@ -144,14 +145,16 @@ class IShopTable extends React.Component{
                             <ProductCardEditable product={emptyProduct}
                                                  isNewProductAdding={this.state.addNewProduct}
                                                  callBackSaveProduct={this.saveProduct}
-                                                 callBackUpdateProduct={this.updateProduct}/>
+                                                 callBackUpdateProduct={this.updateProduct}
+                                                 callBackCancelModification={this.backToMainPage}/>
                             :
                         (this.state.editProductCardMode === true)
                             ?
                             <ProductCardEditable product={this.state.editingProductCard[0]}
                                                  isNewProductAdding={this.state.addNewProduct}
                                                  callBackSaveProduct={this.saveProduct}
-                                                 callBackUpdateProduct={this.updateProduct}/>
+                                                 callBackUpdateProduct={this.updateProduct}
+                                                 callBackCancelModification={this.backToMainPage}/>
                             :
                             (this.state.selectedRowCode !== null) &&
                             <ProductCardUneditable product={
