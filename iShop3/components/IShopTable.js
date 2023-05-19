@@ -148,7 +148,8 @@ class IShopTable extends React.Component{
                                                  isNewProductAdding={this.state.addNewProduct}
                                                  callBackSaveProduct={this.saveProduct}
                                                  callBackUpdateProduct={this.updateProduct}
-                                                 callBackCancelModification={this.backToMainPage}/>
+                                                 callBackCancelModification={this.backToMainPage}
+                                                 key='1'/>
                             :
                         (this.state.editProductCardMode === true)
                             ?
@@ -156,7 +157,8 @@ class IShopTable extends React.Component{
                                                  isNewProductAdding={this.state.addNewProduct}
                                                  callBackSaveProduct={this.saveProduct}
                                                  callBackUpdateProduct={this.updateProduct}
-                                                 callBackCancelModification={this.backToMainPage}/>
+                                                 callBackCancelModification={this.backToMainPage}
+                                                 key='2'/>
                             :
                             (this.state.selectedRowCode !== null) &&
                             <ProductCardUneditable product={

@@ -33,6 +33,8 @@ class ProductCardEditable extends React.Component{
     componentDidMount() {
         if(this.props.isNewProductAdding)
             this.setState({isSavingDisabled:true});
+        if(!this.props.isNewProductAdding)
+            this.setState({isSavingDisabled:false});
     };
 
     componentWillUnmount() {
