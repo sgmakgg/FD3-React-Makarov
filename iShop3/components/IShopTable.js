@@ -64,10 +64,10 @@ class IShopTable extends React.Component{
     };
 
     editProductStateUpdate =(code)=>{
-        let temp = this.state.iShopProducts.filter(item =>
+        let array = this.state.iShopProducts.filter(item =>
             item.code === code);
         this.setState({editProductCardMode:true,
-            editingProductCard:temp,
+            editingProductCard:array,
             addNewProduct:false,
             selectedRowCode:null});
     };
