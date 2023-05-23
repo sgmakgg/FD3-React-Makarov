@@ -50,6 +50,12 @@ bower_components
 connect.lock
 typings
 
+#misc-create-react-app
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
 # Logs
 logs
 *.log
@@ -62,6 +68,10 @@ yarn-error.log*
 node_modules/
 jspm_packages/
 
+# dependencies create-react-app
+/.pnp
+.pnp.js
+
 # Optional npm cache directory
 .npm
 
@@ -73,6 +83,12 @@ jspm_packages/
 
 # Output of 'npm pack'
 *.tgz
+
+# testing create-react-app
+/coverage
+
+# production create-react-app
+/build
 
 # Yarn Integrity file
 .yarn-integrity
