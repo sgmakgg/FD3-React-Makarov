@@ -4,17 +4,16 @@ import {Component} from "react";
 
 class BR2JSX extends Component {
 
-  propTypes = {text: PropTypes.string.isRequired};
+  static propTypes = {text: PropTypes.string.isRequired};
 
   render() {
     const regExp = /<br *?\/?>/g;
     let array = this.props.text.split(regExp);
 
-    let separator = <br/>;
     array = array.map((item, index) =>
       (index !== (array.length - 1))
           ?
-          [item, separator].flat()
+          [item, <br key={index}/>]
           :
           item);
 
