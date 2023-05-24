@@ -27,7 +27,7 @@ class DoubleButton extends React.Component {
     }
 
     render() {
-        return (<div>
+        return (<div className='rainbowHeart'>
                     <input key = {1}
                            type='button'
                            defaultValue={key1defaultValue}
