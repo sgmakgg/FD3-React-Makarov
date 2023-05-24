@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 
-let rainbowFrame = (colors, component) => {
-    let rainbowHeart = component;
+let rainbowFrame = (colors, WrappedComponent) => {
+    let rainbowHeart = WrappedComponent;
     for (const color of colors) {
         rainbowHeart = <div style={{borderColor:`${color}`,
             borderStyle:`solid`,
@@ -11,7 +11,7 @@ let rainbowFrame = (colors, component) => {
     }
     return rainbowHeart;
 }
-// function rainbowFrameMaker(colors) {
+// function withRainbowFrame(colors) {
 //     return function(Component) {
 //         return props => (
 //             <Fragment>
@@ -21,9 +21,9 @@ let rainbowFrame = (colors, component) => {
 //     };
 // }
 
-let rainbowFrameMaker = colors => Component => props =>
+let withRainbowFrame = colors => Component => props =>
     <Fragment>
         {rainbowFrame(colors, <Component {...props}/>)}
     </Fragment>
 
-export {rainbowFrameMaker};
+export {withRainbowFrame};

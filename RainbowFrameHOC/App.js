@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 
 // import defaultData from './defaultData.json';
 // import DoubleButton from "./components/DoubleButton";
-import rainbowFrameMaker from "./components/DoubleButton";
+import withRainbowFrame from "./components/DoubleButton";
 
 const caption1 = 'однажды';
 const caption2 = 'пору';
 
-let DoubleButtonHOC = rainbowFrameMaker;
+let DoubleButtonHOC = withRainbowFrame;
 
 ReactDOM.render(
     <DoubleButtonHOC caption1={caption1}

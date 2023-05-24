@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './DoubleButton.css';
-import {rainbowFrameMaker} from "./rainbowFrameMaker";
+import {withRainbowFrame} from "./withRainbowFrame";
 import defaultData from '../defaultData.json';
 
 const key1defaultValue = 'я из лесу';
@@ -43,4 +43,4 @@ class DoubleButton extends React.Component {
 
 // export default DoubleButton;
 
-export default rainbowFrameMaker(defaultData)(DoubleButton);
+export default withRainbowFrame(defaultData)(DoubleButton);
