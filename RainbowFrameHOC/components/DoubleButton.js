@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './DoubleButton.css';
+import {rainbowFrameMaker} from "./rainbowFrameMaker";
+import defaultData from '../defaultData.json';
 
 const key1defaultValue = 'я из лесу';
 const key2defaultValue = 'мороз';
@@ -9,10 +11,9 @@ const key2defaultValue = 'мороз';
 class DoubleButton extends React.Component {
 
     static propTypes = {
-        caption1: PropTypes.string.isRequired,
-        caption2: PropTypes.string.isRequired,
-        cbPressed: PropTypes.func.isRequired,
-        defaultData: PropTypes.array
+        caption1: PropTypes.string,
+        caption2: PropTypes.string,
+        cbPressed: PropTypes.func
     };
 
     clickFunc = (EO) =>{
@@ -40,4 +41,6 @@ class DoubleButton extends React.Component {
     }
 }
 
-export default DoubleButton;
+// export default DoubleButton;
+
+export default rainbowFrameMaker(defaultData)(DoubleButton);
