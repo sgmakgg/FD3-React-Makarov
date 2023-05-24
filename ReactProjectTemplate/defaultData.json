@@ -1,0 +1,17 @@
+[
+  {"name": "Milk",
+    "price": 1.50,
+    "imageURL": "images/milk.png",
+    "warehouseQuantity": 100,
+    "code": 100},
+  {"name": "Olive oil",
+    "price": 20.22,
+    "imageURL": "images/olive-oil.png",
+    "warehouseQuantity": 100500,
+    "code": 200},
+  {"name": "Bread",
+    "price": 0.25,
+    "imageURL": "images/bread.png",
+    "warehouseQuantity": 300,
+    "code": 300}
+]
