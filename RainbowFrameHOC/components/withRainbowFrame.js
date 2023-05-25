@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 
-let rainbowFrame = (colors, WrappedComponent) => {
-    let rainbowHeart = WrappedComponent;
+let rainbowFrame = (colors, JSXCode) => {
+    let rainbowHeart = JSXCode;
     for (const color of colors) {
         rainbowHeart = <div style={{borderColor:`${color}`,
             borderStyle:`solid`,
