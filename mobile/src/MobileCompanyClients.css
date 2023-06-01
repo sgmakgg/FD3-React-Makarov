@@ -1,0 +1,19 @@
+table, th, td{
+    border:1px solid black;
+    border-collapse: collapse;
+}
+
+th, td{
+    text-align: left;
+    padding-left: 1vw;
+}
+
+.SortingButtons, .AddNewClientButton{
+    text-align: left;
+}
+
+.ClientsTable{
+    width: 100%;
+    margin-top: 1px;
+}
+
