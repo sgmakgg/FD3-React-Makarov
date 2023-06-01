@@ -9,14 +9,21 @@ import MCClientEdit from "./MCClientEdit";
 import deepEqual from 'deep-equal';
 
 const tableHead = <tr className='TableHead'>
-    <th>Last Name</th>
-    <th>First Name</th>
-    <th>Surname</th>
-    <th>Balance</th>
-    <th>Status</th>
-    <th>Edit</th>
-    <th>Delete</th>
-</tr>
+                                <th>Last Name</th>
+                                <th>First Name</th>
+                                <th>Surname</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>;
+
+const emptyClient = {
+                            Id: NaN,
+                            LastName: '',
+                            FirstName: '',
+                            Surname: '',
+                            Balance: -1};
 
 class MCClientsList extends React.PureComponent{
 
@@ -53,30 +60,48 @@ class MCClientsList extends React.PureComponent{
         let copy = [...this.state.clients];
         let clients = copy.filter(client => client.Id !== id);
         this.setState({clients})
-    }
+    };
 
     editClient = (id) => this.setState({editedClient: id});
 
     saveClient = (editedClient) => {
-        this.setState({editedClient:null});
         let copyClients = [...this.state.clients];
-        copyClients.forEach((client, index) => {
-            if(client.Id === editedClient.Id && !deepEqual(client, editedClient)){
-                copyClients[index] = editedClient;
-            }
-        });
 
-        this.setState({clients:copyClients, editedClient:null})
-    }
+        let hasId = false;
+        for (const client of copyClients) {
+            if(client.Id === editedClient.Id) hasId = true;
+        }
+
+        if(!hasId){
+            copyClients.push(editedClient);
+            copyClients = copyClients.filter(client => !isNaN(client.Id))
+        }
+        else{
+            copyClients.forEach((client, index) => {
+                if(client.Id === editedClient.Id && !deepEqual(client, editedClient) && !isNaN(client.Id)){
+                    copyClients[index] = editedClient;
+                }
+                if(isNaN(client.Id)){
+                    copyClients = copyClients.filter(client => !isNaN(client.Id));
+                }
+            });
+        }
+        this.setState({clients:copyClients, editedClient:null});
+    };
+
+    addNewClient = () =>{
+        let copyClients = [...this.state.clients];
+        copyClients.push(emptyClient);
+
+        this.setState({clients:copyClients, editedClient:null});
+    };
 
     render(){
-        let clients = this.state.clients.map( client => (this.state.editedClient !== client.Id)
+        let clients = this.state.clients.map( (client, index) => (this.state.editedClient !== client.Id && !isNaN(client.Id))
                                                         ?
-                                                        <MCClient key={client.Id}
-                                                                  clientInfo={client}></MCClient>
+                                                        <MCClient key={client.Id} clientInfo={client}></MCClient>
                                                         :
-                                                        <MCClientEdit key={client.Id}
-                                                                      clientInfo={client}></MCClientEdit>)
+                                                        <MCClientEdit key={index} clientInfo={client} newId={index}></MCClientEdit>)
 
         console.log('render MCClientsList')
         return(
@@ -95,7 +120,8 @@ class MCClientsList extends React.PureComponent{
                     </tbody>
                 </table>
                 <div className='AddNewClientButton'>
-                    <input type='button' value='Add Client'/>
+                    <input type='button'
+                           value='Add Client' onClick={this.addNewClient}/>
                 </div>
             </Fragment>
         );

@@ -13,7 +13,8 @@ class MCClientEdit extends React.PureComponent{
             FirstName: PropTypes.string.isRequired,
             Surname: PropTypes.string.isRequired,
             Balance: PropTypes.number.isRequired
-        })
+        }),
+        newId:PropTypes.number
     };
 
     lastNameRef = React.createRef();
@@ -22,7 +23,8 @@ class MCClientEdit extends React.PureComponent{
     balanceRef = React.createRef();
 
     saveEditedClient =  (EO) => {
-        let editedClient = {Id: this.props.clientInfo.Id,
+        let id = (!isNaN(this.props.clientInfo.Id)) ? this.props.clientInfo.Id : this.props.newId;
+        let editedClient = {Id: id,
             LastName: this.lastNameRef.current.value,
             FirstName: this.firstNameRef.current.value,
             Surname: this.surNameRef.current.value,
@@ -38,19 +40,22 @@ class MCClientEdit extends React.PureComponent{
                 <td >
                     <input type='text'
                            style={{border:'none'}}
-                           defaultValue={this.props.clientInfo.LastName}
+                           defaultValue={(!isNaN(this.props.clientInfo.Id))
+                                            ? this.props.clientInfo.LastName : 'Enter Last Name'}
                            ref={this.lastNameRef}/>
                 </td>
                 <td>
                     <input type='text'
                            style={{border:'none'}}
-                           defaultValue={this.props.clientInfo.FirstName}
+                           defaultValue={(!isNaN(this.props.clientInfo.Id))
+                                            ? this.props.clientInfo.FirstName : 'Enter First Name'}
                            ref={this.firstNameRef}/>
                 </td>
                 <td>
                     <input type='text'
                            style={{border:'none'}}
-                           defaultValue={this.props.clientInfo.Surname}
+                           defaultValue={(!isNaN(this.props.clientInfo.Id))
+                                            ? this.props.clientInfo.Surname : 'Enter Surname'}
                            ref={this.surNameRef}/>
                 </td>
                 <td>
@@ -62,7 +67,8 @@ class MCClientEdit extends React.PureComponent{
                            ref={this.balanceRef}/>
                 </td>
                 <td>
-                    Editing...
+                    {(!isNaN(this.props.clientInfo.Id))
+                        ? 'Editing...' : 'Adding...'}
                 </td>
                 <td>
                     <input type='button'
