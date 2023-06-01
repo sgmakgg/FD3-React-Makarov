@@ -23,7 +23,9 @@ const emptyClient = {
                             LastName: '',
                             FirstName: '',
                             Surname: '',
-                            Balance: -1};
+                            Balance: 0};
+
+const sortTypes = {All:'All', Active:'Active', Blocked:'Blocked'}
 
 class MCClientsList extends React.PureComponent{
 
@@ -41,7 +43,10 @@ class MCClientsList extends React.PureComponent{
 
     state= {
         clients: this.props.clients,
-        editedClient: null
+        notSortedClients: this.props.clients,
+        editedClient: null,
+        wasSorted: false,
+        sortType: sortTypes.All
     };
 
     componentDidMount() {
@@ -65,7 +70,11 @@ class MCClientsList extends React.PureComponent{
     editClient = (id) => this.setState({editedClient: id});
 
     saveClient = (editedClient) => {
-        let copyClients = [...this.state.clients];
+        let copyClients;
+        if(!this.state.wasSorted)
+            copyClients = [...this.state.clients];
+        else
+            copyClients = [...this.state.notSortedClients];
 
         let hasId = false;
         for (const client of copyClients) {
@@ -86,7 +95,15 @@ class MCClientsList extends React.PureComponent{
                 }
             });
         }
-        this.setState({clients:copyClients, editedClient:null});
+        if(!this.state.wasSorted)
+            this.setState({clients:copyClients, editedClient:null});
+        else{
+            if(this.state.sortType === sortTypes.Blocked)
+                this.setState({notSortedClients:copyClients, editedClient:null}, this.sortBlocked);
+            if(this.state.sortType === sortTypes.Active)
+                this.setState({notSortedClients:copyClients, editedClient:null}, this.sortActive);
+        }
+
     };
 
     addNewClient = () =>{
@@ -96,8 +113,46 @@ class MCClientsList extends React.PureComponent{
         this.setState({clients:copyClients, editedClient:null});
     };
 
+    sortAll = () => {
+        this.setState({clients: this.state.notSortedClients, wasSorted: false, sortType:sortTypes.All})
+    };
+
+    sortActive = () => {
+        if(!this.state.wasSorted){
+            let copyClients = [...this.state.clients];
+            copyClients = copyClients.filter(client => client.Balance > 0);
+            this.setState({notSortedClients: this.state.clients,
+                                clients: copyClients,
+                                wasSorted: true,
+                                sortType:sortTypes.Active});
+        }
+
+        if(this.state.wasSorted){
+            let copyClients = [...this.state.notSortedClients];
+            copyClients = copyClients.filter(client => client.Balance > 0);
+            this.setState({clients: copyClients, sortType:sortTypes.Active});
+        }
+    };
+
+    sortBlocked = () => {
+        if(!this.state.wasSorted){
+            let copyClients = [...this.state.clients];
+            copyClients = copyClients.filter(client => client.Balance <= 0);
+            this.setState({notSortedClients: this.state.clients,
+                                clients: copyClients,
+                                wasSorted: true,
+                                sortType:sortTypes.Blocked});
+        }
+
+        if(this.state.wasSorted){
+            let copyClientsNotSorted = [...this.state.notSortedClients];
+            copyClientsNotSorted = copyClientsNotSorted.filter(client => client.Balance <= 0);
+            this.setState({clients: copyClientsNotSorted, sortType:sortTypes.Blocked});
+        }
+    }
+
     render(){
-        let clients = this.state.clients.map( (client, index) => (this.state.editedClient !== client.Id && !isNaN(client.Id))
+        let clients = this.state.clients.map((client, index) => (this.state.editedClient !== client.Id && !isNaN(client.Id))
                                                         ?
                                                         <MCClient key={client.Id} clientInfo={client}></MCClient>
                                                         :
@@ -107,9 +162,9 @@ class MCClientsList extends React.PureComponent{
         return(
             <Fragment>
                 <div className='SortingButtons'>
-                    <input type='button' value='All'/>
-                    <input type='button' value='Active'/>
-                    <input type='button' value='Blocked'/>
+                    <input type='button' value='All' onClick={this.sortAll}/>
+                    <input type='button' value='Active' onClick={this.sortActive}/>
+                    <input type='button' value='Blocked' onClick={this.sortBlocked}/>
                 </div>
                 <table className='ClientsTable'>
                     <thead>{tableHead}</thead>
