@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './MCClient.css';
+import {clientComponentEvent, isDeleting} from "./ClientComponentEvents";
 
 class MCClient extends React.PureComponent{
 
@@ -19,7 +20,10 @@ class MCClient extends React.PureComponent{
         clientInfo: this.props.clientInfo
     };
 
+    deleteEvent = () => clientComponentEvent.emit(isDeleting, this.props.clientInfo.Id);
+
     render() {
+        console.log('render Client with id ' + this.props.clientInfo.Id)
         return(
             <tr className='Client' key={this.props.clientInfo.Id}>
                 <td>{this.state.clientInfo.LastName}</td>
@@ -35,7 +39,9 @@ class MCClient extends React.PureComponent{
                     <input type='button' value='Edit'/>
                 </td>
                 <td>
-                    <input type='button' value='Delete'/>
+                    <input type='button'
+                           value='Delete'
+                           onClick={this.deleteEvent}/>
                 </td>
             </tr>
         );

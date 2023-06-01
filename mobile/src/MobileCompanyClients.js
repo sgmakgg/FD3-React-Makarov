@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import './MobileCompanyClients.css';
 import MCClient from "./MCClient";
+import {clientComponentEvent, isDeleting} from "./ClientComponentEvents";
 
 const tableHead = <tr className='TableHead'>
     <th>Last Name</th>
@@ -32,8 +33,23 @@ class MobileCompanyClients extends React.PureComponent{
         clients: this.props.clients
     };
 
+    componentDidMount() {
+        clientComponentEvent.addListener(isDeleting, this.deleteClient);
+    };
+
+    componentWillUnmount() {
+        clientComponentEvent.addListener(isDeleting, this.deleteClient);
+    };
+
+    deleteClient = (id) => {
+        let copy = [...this.state.clients];
+        let clients = copy.filter(client => client.Id !== id);
+        this.setState({clients})
+    }
+
     render(){
-        let clients = this.state.clients.map( client => <MCClient key={client.Id} clientInfo={client}></MCClient>);
+        let clients = this.state.clients.map( client => <MCClient key={client.Id}
+                                                                  clientInfo={client}></MCClient>);
 
         console.log('render MobileCompanyClients')
         return(
