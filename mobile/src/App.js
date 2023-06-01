@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import MobileCompanyClients from "./MobileCompanyClients";
+import MCClientsList from "./MCClientsList";
 
 const defaultClients = [
     {
@@ -32,7 +32,7 @@ const defaultClients = [
 function App() {
   return (
     <div className="App">
-      <MobileCompanyClients clients={defaultClients}></MobileCompanyClients>
+      <MCClientsList clients={defaultClients}></MCClientsList>
     </div>
   );
 }

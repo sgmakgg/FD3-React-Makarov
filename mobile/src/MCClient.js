@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './MCClient.css';
-import {clientComponentEvent, isDeleting} from "./ClientComponentEvents";
+import {mcClientEvents, isDeleting, isEditing} from "./MCClientEvents";
 
 class MCClient extends React.PureComponent{
 
@@ -20,7 +20,8 @@ class MCClient extends React.PureComponent{
         clientInfo: this.props.clientInfo
     };
 
-    deleteEvent = () => clientComponentEvent.emit(isDeleting, this.props.clientInfo.Id);
+    deleteEvent = (EO) => mcClientEvents.emit(isDeleting, this.props.clientInfo.Id);
+    editEvent = (EO) => mcClientEvents.emit(isEditing, this.props.clientInfo.Id);
 
     render() {
         console.log('render Client with id ' + this.props.clientInfo.Id)
@@ -36,7 +37,9 @@ class MCClient extends React.PureComponent{
                     :
                     <td style={{background: 'red'}}>Blocked</td>}
                 <td>
-                    <input type='button' value='Edit'/>
+                    <input type='button'
+                           value='Edit'
+                           onClick={this.editEvent}/>
                 </td>
                 <td>
                     <input type='button'
