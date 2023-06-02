@@ -1,0 +1,15 @@
+.VerticalList{
+    margin-top: 10px;
+    margin-left: 5px;
+    max-height: 154px;
+    min-height: 16px;
+    max-width: 170px;
+    overflow-y: auto;
+    border: 1px solid black;
+}
+
+.VerticalList ul{
+    margin: 0 0 0 0;
+    padding: 0 0 0 20px;
+    list-style-type: none;
+}
