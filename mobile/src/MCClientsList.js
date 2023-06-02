@@ -18,12 +18,11 @@ const tableHead = <tr className='TableHead'>
                                 <th>Delete</th>
                             </tr>;
 
-const emptyClient = {
-                            Id: NaN,
-                            LastName: '',
-                            FirstName: '',
-                            Surname: '',
-                            Balance: 0};
+const emptyClient = {Id: NaN,
+                        LastName: '',
+                        FirstName: '',
+                        Surname: '',
+                        Balance: 0};
 
 const sortTypes = {All:'All', Active:'Active', Blocked:'Blocked'}
 
@@ -78,7 +77,8 @@ class MCClientsList extends React.PureComponent{
 
         let hasId = false;
         for (const client of copyClients) {
-            if(client.Id === editedClient.Id) hasId = true;
+            if(client.Id === editedClient.Id)
+                hasId = true;
         }
 
         if(!hasId){
@@ -95,6 +95,7 @@ class MCClientsList extends React.PureComponent{
                 }
             });
         }
+
         if(!this.state.wasSorted)
             this.setState({clients:copyClients, editedClient:null});
         else{
@@ -121,6 +122,7 @@ class MCClientsList extends React.PureComponent{
         if(!this.state.wasSorted){
             let copyClients = [...this.state.clients];
             copyClients = copyClients.filter(client => client.Balance > 0);
+
             this.setState({notSortedClients: this.state.clients,
                                 clients: copyClients,
                                 wasSorted: true,
@@ -130,6 +132,7 @@ class MCClientsList extends React.PureComponent{
         if(this.state.wasSorted){
             let copyClients = [...this.state.notSortedClients];
             copyClients = copyClients.filter(client => client.Balance > 0);
+
             this.setState({clients: copyClients, sortType:sortTypes.Active});
         }
     };
@@ -138,6 +141,7 @@ class MCClientsList extends React.PureComponent{
         if(!this.state.wasSorted){
             let copyClients = [...this.state.clients];
             copyClients = copyClients.filter(client => client.Balance <= 0);
+
             this.setState({notSortedClients: this.state.clients,
                                 clients: copyClients,
                                 wasSorted: true,
@@ -147,16 +151,18 @@ class MCClientsList extends React.PureComponent{
         if(this.state.wasSorted){
             let copyClientsNotSorted = [...this.state.notSortedClients];
             copyClientsNotSorted = copyClientsNotSorted.filter(client => client.Balance <= 0);
+
             this.setState({clients: copyClientsNotSorted, sortType:sortTypes.Blocked});
         }
     }
 
     render(){
-        let clients = this.state.clients.map((client, index) => (this.state.editedClient !== client.Id && !isNaN(client.Id))
-                                                        ?
-                                                        <MCClient key={client.Id} clientInfo={client}></MCClient>
-                                                        :
-                                                        <MCClientEdit key={index} clientInfo={client} newId={index}></MCClientEdit>)
+        let clients = this.state.clients.map((client, index) =>
+                                                (this.state.editedClient !== client.Id && !isNaN(client.Id))
+                                                ?
+                                                <MCClient key={client.Id} clientInfo={client}></MCClient>
+                                                :
+                                                <MCClientEdit key={index} clientInfo={client} newId={index}></MCClientEdit>)
 
         console.log('render MCClientsList')
         return(
