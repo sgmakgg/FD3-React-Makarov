@@ -13,7 +13,6 @@ const Filter = props =>{
     useEffect(
         () =>{
             sortArray();
-            return() => {sortArray()};
         },
         [checkbox, currentInputText]
     );
@@ -29,20 +28,19 @@ const Filter = props =>{
     function resetToDefault(){
         setCheckbox(false);
         setCurrentInputText('');
-        setCurrentList(props.words);
     }
 
     function sortArray(){
         let currentValue = [...props.words];
 
-        if(currentInputText === ''){
-            setCurrentList(checkbox ?  currentValue.sort() : currentValue);
+        if(currentInputText !== ''){
+            currentValue = currentValue.filter(item => item.includes(currentInputText) === true);
         }
-        else{
-            let result = currentValue.filter(item => item.includes(currentInputText) === true);
 
-            setCurrentList(checkbox ? result.sort() : result);
-        }
+        if(checkbox)
+            currentValue.sort();
+
+        setCurrentList(currentValue);
     }
 
     return(
