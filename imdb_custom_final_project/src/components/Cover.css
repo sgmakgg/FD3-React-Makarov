@@ -1,0 +1,20 @@
+.CoverPage{
+    width: 100vw;
+    height: 100vh;
+    background-image: radial-gradient(
+            farthest-corner at 40px 40px,
+            #43e 0%,
+            #f35 100%
+    );
+}
+
+.StartButton{
+    background-color: #d63376;
+    border: none;
+    border-radius: 50px;
+    font-size: 2vmin;
+    font-weight: bold;
+    letter-spacing: 1vmin;
+    color: white;
+    cursor: pointer;
+}
