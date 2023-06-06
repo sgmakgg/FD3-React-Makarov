@@ -26,13 +26,13 @@ export const Cover = () => {
             <input className='StartButton'
                        type='button'
                        value={'Try\xa0it\xa0now'}
-                style={{
+                 style={{
                        position: "absolute",
                        left: '12vw',
                        top: '45vh',
                        height:'10%',
                        width:'15%',
-                       }} src={movieDB} alt='MovieDB_picture'/>
+                       }} src={movieDB} alt='MovieDB_button'/>
         </div>
     );
 };
