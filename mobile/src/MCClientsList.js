@@ -18,7 +18,7 @@ const tableHead = <tr className='TableHead'>
                                 <th>Delete</th>
                             </tr>;
 
-const emptyClient = {Id: NaN,
+const emptyClient = {Id: null,
                         LastName: '',
                         FirstName: '',
                         Surname: '',
@@ -83,15 +83,15 @@ class MCClientsList extends React.PureComponent{
 
         if(!hasId){
             copyClients.push(editedClient);
-            copyClients = copyClients.filter(client => !isNaN(client.Id))
+            copyClients = copyClients.filter(client => client.Id !== null)
         }
         else{
             copyClients.forEach((client, index) => {
-                if(client.Id === editedClient.Id && !deepEqual(client, editedClient) && !isNaN(client.Id)){
+                if(client.Id === editedClient.Id && !deepEqual(client, editedClient) && client.Id !== null){
                     copyClients[index] = editedClient;
                 }
-                if(isNaN(client.Id)){
-                    copyClients = copyClients.filter(client => !isNaN(client.Id));
+                if(client.Id === null){
+                    copyClients = copyClients.filter(client => client.Id !== null);
                 }
             });
         }
@@ -158,7 +158,7 @@ class MCClientsList extends React.PureComponent{
 
     render(){
         let clients = this.state.clients.map((client, index) =>
-                                                (this.state.editedClient !== client.Id && !isNaN(client.Id))
+                                                (this.state.editedClient !== client.Id && client.Id !== null)
                                                 ?
                                                 <MCClient key={client.Id} clientInfo={client}></MCClient>
                                                 :
