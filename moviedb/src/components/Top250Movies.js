@@ -9,7 +9,6 @@ import {useQuery} from "react-query";
 import MovieCard from "./MovieCard";
 
 const data = JSON.parse(localStorage.getItem('Top250Movies')).items;
-const item = data[0].id;
 
 const Top250Movies = () =>{
     // const { isLoading, error, data } = useQuery(
@@ -33,8 +32,8 @@ const Top250Movies = () =>{
                       display="flex"
                       justifyContent="center"
                       alignItems="center">
-                    <Item key={item.id}>
-                        <MovieCard movie={movie} key={item.id}></MovieCard>
+                    <Item key={movie.id}>
+                        <MovieCard movie={movie} key={movie.id}></MovieCard>
                     </Item>
                 </Grid>
             ))}
