@@ -4,7 +4,10 @@ import './Cover.css'
 import iPhone from '../images/iPhone.svg';
 import movieDB from '../images/movieDB.svg';
 
-export const Cover = () => {
+export const Cover = ({cbSwitchToSearchPage}) => {
+    function switchToSearchPage(){
+        cbSwitchToSearchPage(true);
+    }
     return (
         <div className='CoverPage' >
             <img className='IPhone'
@@ -32,7 +35,8 @@ export const Cover = () => {
                        top: '45vh',
                        height:'10%',
                        width:'15%',
-                       }} src={movieDB} alt='MovieDB_button'/>
+                       }} src={movieDB} alt='MovieDB_button'
+                        onClick={switchToSearchPage}/>
         </div>
     );
 };
