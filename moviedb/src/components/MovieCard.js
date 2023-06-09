@@ -24,14 +24,15 @@ const MovieCard = ({movie}) => {
                     </Box>
                     <Box sx={{width: 200, display: 'flex', alignItems: 'center', marginBottom: "1vh" }}>
                         <Rating
-                            name="text-feedback"
-                            value={parseFloat(movie.imDbRating)}
+                            name="half-rating-read"
+                            defaultValue={parseFloat(movie.imDbRating)}
+                            precision={0.5}
+                            max={10}
                             readOnly
-                            precision={0.1}
                             size='large'
                         />
-                        <Box sx={{ ml: 2, fontWeight: 'bold' }}>{'IMDB:\xa0' + movie.imDbRating}</Box>
                     </Box>
+                    <Box sx={{ ml: 30, fontWeight: 'bold' }}>{'IMDB:\xa0' + movie.imDbRating}</Box>
                     <Box sx={{ml: 0, fontWeight: 'bold', marginTop: '10vh'}} display='inline'>
                         {'Actors:\xa0'}
                     </Box>
