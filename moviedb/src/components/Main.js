@@ -22,6 +22,7 @@ const Main = () => {
     const[top250MoviesOn, setTop250MoviesOn] = useState(false);
     const[pagesCount, setPagesCount] = useState(0);
     const[pageNumber, setPageNumber] = useState(1);
+    const[searchField, setSearchField] = useState('');
 
     const turnOnTop250Movies = () => {
         setTop250MoviesOn(true);}
@@ -32,6 +33,26 @@ const Main = () => {
     const handleChange  = (EO, value) =>{
         setPageNumber(value);
     }
+
+    const setSearchFieldState = (EO) => {
+        setSearchField(EO.target.value);
+    }
+    const debounceSerie = (func,interval,immediate) => {
+        let timer;
+        return function() {
+            let context=this, args=arguments;
+            let later=function() {
+                timer=null;
+                if ( !immediate )
+                    func.apply(context,args);
+            };
+            let callNow=immediate&&!timer;
+            clearTimeout(timer);
+            timer=setTimeout(later,interval);
+            if ( callNow )
+                func.apply(context,args);
+        };
+    };
 
     return (
             <Grid className='MainPage'  container>
@@ -59,12 +80,14 @@ const Main = () => {
                                     label="Search field"
                                     type="search"
                                     variant="standard"
-                                    sx={{width:'70%', paddingBottom:'1vh'}}/>
+                                    sx={{width:'70%', paddingBottom:'1vh'}}
+                                    onChange={debounceSerie(setSearchFieldState, 500, false)}/>
                         </Grid>
                         <Grid xs={12} sx={{minHeight:'90vh'}}>
                             {(top250MoviesOn)&&<Top250Movies cbPagesCount={cbPagesCount}
                                                              elementsPerPage={10}
-                                                             pageNumber={pageNumber}/>}
+                                                             pageNumber={pageNumber}
+                                                             searchField={searchField}/>}
                         </Grid>
                         <Grid xs={12} display="flex"
                               justifyContent="center"

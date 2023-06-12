@@ -10,12 +10,16 @@ import MovieCard from "./MovieCard";
 
 const data = JSON.parse(localStorage.getItem('Top250Movies')).items;
 
-const Top250Movies = ({cbPagesCount, elementsPerPage, pageNumber}) =>{
+const Top250Movies = ({cbPagesCount, elementsPerPage, pageNumber, searchField}) =>{
 
     const[responseData, setResponseData] = useState(data);
     const[pageSize, setPageSize] = useState(elementsPerPage);
     const[page, setPage] = useState(pageNumber);
     const[currentPageArr, setCurrentPageArr] = useState(null);
+
+    useEffect(()=>{
+                setResponseDataWithSearchFieldValue();
+            },[searchField]);
 
     useEffect(
         ()=>{
@@ -39,9 +43,21 @@ const Top250Movies = ({cbPagesCount, elementsPerPage, pageNumber}) =>{
     //     localStorage.setItem('Top250Movies', JSON.stringify(data));
     // }
 
+    const setResponseDataWithSearchFieldValue = () => {
+        if(searchField !== ''){
+            let res = data.filter(movie => movie.title.includes(searchField) === true)
+            setResponseData(res);
+        }
+        else
+            setResponseData(data);
+    }
+
     const countPages = () =>{
-        let res = responseData.length/pageSize;
-        cbPagesCount(res);
+        let countPages = responseData.length/pageSize;
+        if(Number.isInteger(countPages))
+            cbPagesCount(countPages);
+        else
+            cbPagesCount(parseInt(countPages + 1));
     }
 
     const currentPage = () => {
