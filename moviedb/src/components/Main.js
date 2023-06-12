@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Grid from '@mui/material/Unstable_Grid2';
 import Item from '@mui/material/Unstable_Grid2';
@@ -7,7 +7,9 @@ import {Button, Pagination, TextField} from '@mui/material';
 
 import './Main.css'
 
-import Top250Movies from "./Top250Movies";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
+import {MainComponentContext} from "../context/MainComponentContext";
+import {pageCountEvent, pagesNumber, pagesQuantity} from "../events/PageCounterEvent";
 
 const theme = createTheme({
     palette: {
@@ -17,25 +19,67 @@ const theme = createTheme({
     },
   });
 
+const top250movies = 'top250movies';
+const main = 'main';
+
 const Main = () => {
 
-    const[top250MoviesOn, setTop250MoviesOn] = useState(false);
     const[pagesCount, setPagesCount] = useState(0);
-    const[pageNumber, setPageNumber] = useState(1);
-    const[searchField, setSearchField] = useState('');
+    const[forChildren, setForChildren] = useState({elementsPerPage: 10, pageNumber: 1, searchField: '', activeChild: ''});
+    const[paginationPage, setPaginationPage] = useState(0);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(()=>{
+        pageCountEvent.addListener(pagesQuantity, cbPagesCount);
+        pageCountEvent.addListener(pagesNumber, cbPaginationPageNumber);
+        return () => {
+            pageCountEvent.removeListener(pagesQuantity, cbPagesCount);
+            pageCountEvent.removeListener(pagesNumber, cbPaginationPageNumber);
+        };
+    },[]);
+
+    useEffect(() => {
+        let uri;
+        switch(forChildren.activeChild){
+            case top250movies:
+                uri="/main/" + encodeURIComponent(forChildren.activeChild) + "/" + encodeURIComponent(forChildren.pageNumber);
+                navigate(uri);
+                break;
+            default:
+                uri="/main";
+                navigate(uri);
+                break;
+        }
+    }, [forChildren.pageNumber, forChildren.activeChild])
+
+    useEffect(() => {
+        if(location.pathname === ('/' + main)){
+            setPagesCount(0);
+            setPaginationPage(0);
+            setForChildren({...forChildren, activeChild: ''});
+        }
+    },[location])
+
 
     const turnOnTop250Movies = () => {
-        setTop250MoviesOn(true);}
+        setForChildren({...forChildren, activeChild: top250movies});}
+
+    const cbPaginationPageNumber = (number) => {
+        setPaginationPage(parseInt(number));
+    }
 
     const cbPagesCount = (count) =>{
         setPagesCount(count);
     }
+
     const handleChange  = (EO, value) =>{
-        setPageNumber(value);
+        setForChildren({...forChildren, pageNumber: value});
     }
 
     const setSearchFieldState = (EO) => {
-        setSearchField(EO.target.value);
+        setForChildren({...forChildren, searchField: EO.target.value});
     }
     const debounceSerie = (func,interval,immediate) => {
         let timer;
@@ -84,15 +128,14 @@ const Main = () => {
                                     onChange={debounceSerie(setSearchFieldState, 500, false)}/>
                         </Grid>
                         <Grid xs={12} sx={{minHeight:'90vh'}}>
-                            {(top250MoviesOn)&&<Top250Movies cbPagesCount={cbPagesCount}
-                                                             elementsPerPage={10}
-                                                             pageNumber={pageNumber}
-                                                             searchField={searchField}/>}
+                            <MainComponentContext.Provider value={forChildren}>
+                                <Outlet/>
+                            </MainComponentContext.Provider>
                         </Grid>
                         <Grid xs={12} display="flex"
                               justifyContent="center"
                               alignItems="center">
-                            <Pagination count={pagesCount} onChange={handleChange}/>
+                            <Pagination count={pagesCount} page={paginationPage} onChange={handleChange}/>
                         </Grid>
                 </Grid>
             </Grid>

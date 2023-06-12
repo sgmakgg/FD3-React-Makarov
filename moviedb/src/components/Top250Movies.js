@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 import './Top250Movies.css';
 
@@ -7,28 +7,35 @@ import Item from "@mui/material/Unstable_Grid2";
 
 import {useQuery} from "react-query";
 import MovieCard from "./MovieCard";
+import {MainComponentContext} from "../context/MainComponentContext";
+import {pageCountEvent, pagesNumber, pagesQuantity} from "../events/PageCounterEvent";
+import {useParams} from "react-router-dom";
 
 const data = JSON.parse(localStorage.getItem('Top250Movies')).items;
 
-const Top250Movies = ({cbPagesCount, elementsPerPage, pageNumber, searchField}) =>{
+ const Top250Movies = () =>{
+
+    const mainContext = useContext(MainComponentContext);
+    const params = useParams();
 
     const[responseData, setResponseData] = useState(data);
-    const[pageSize, setPageSize] = useState(elementsPerPage);
-    const[page, setPage] = useState(pageNumber);
+    const[pageSize, setPageSize] = useState(mainContext.elementsPerPage);
+    const[page, setPage] = useState(params.pageNumber);
     const[currentPageArr, setCurrentPageArr] = useState(null);
 
     useEffect(()=>{
                 setResponseDataWithSearchFieldValue();
-            },[searchField]);
+            },[mainContext.searchField]);
 
     useEffect(
         ()=>{
             if(responseData.length !== 0){
                 countPages();
             }
-            setPage(pageNumber);
+            setPage(params.pageNumber);
+            pageCountEvent.emit(pagesNumber, params.pageNumber);
             currentPage();
-        },[responseData, page, pageNumber]);
+        },[responseData, page, params.pageNumber]);
 
     // const { isLoading, error, data } = useQuery(
     //     'top250movies',
@@ -44,8 +51,8 @@ const Top250Movies = ({cbPagesCount, elementsPerPage, pageNumber, searchField}) 
     // }
 
     const setResponseDataWithSearchFieldValue = () => {
-        if(searchField !== ''){
-            let res = data.filter(movie => movie.title.includes(searchField) === true)
+        if(mainContext.searchField !== ''){
+            let res = data.filter(movie => movie.title.includes(mainContext.searchField) === true)
             setResponseData(res);
         }
         else
@@ -55,9 +62,9 @@ const Top250Movies = ({cbPagesCount, elementsPerPage, pageNumber, searchField}) 
     const countPages = () =>{
         let countPages = responseData.length/pageSize;
         if(Number.isInteger(countPages))
-            cbPagesCount(countPages);
+            pageCountEvent.emit(pagesQuantity, countPages);
         else
-            cbPagesCount(parseInt(countPages + 1));
+            pageCountEvent.emit(pagesQuantity, parseInt(countPages + 1));
     }
 
     const currentPage = () => {

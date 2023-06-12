@@ -1,28 +1,18 @@
-import { useState } from 'react';
-import './App.css';
-import {Cover} from "./components/Cover";
-import Main from "./components/Main";
 import {QueryClient, QueryClientProvider} from "react-query";
+import {PagesRouter} from "./routes/PagesRouter";
+
+import './App.css';
 
 const queryClient = new QueryClient();
 
 function App() {
-  const[isSearchPageOn, setIsCoverPageOn] = useState(false);
-
-  function switchToSearchPage(flag){
-      setIsCoverPageOn(flag);
-  }
 
   return (
-    <div className="App">
-      {(!isSearchPageOn)
-      ? 
-      <Cover cbSwitchToSearchPage={switchToSearchPage}/>
-      :
-      <QueryClientProvider client={queryClient}>
-        <Main/>
-      </QueryClientProvider>}
-    </div>
+        <div className="App">
+            <QueryClientProvider client={queryClient}>
+                <PagesRouter/>
+            </QueryClientProvider>
+        </div>
   );
 }
 

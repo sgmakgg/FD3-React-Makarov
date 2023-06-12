@@ -3,10 +3,13 @@ import React from 'react';
 import './Cover.css'
 import iPhone from '../images/iPhone.svg';
 import movieDB from '../images/movieDB.svg';
+import {useNavigate} from "react-router-dom";
 
-export const Cover = ({cbSwitchToSearchPage}) => {
+export const Cover = () => {
+
+    let navigate = useNavigate();
     function switchToSearchPage(){
-        cbSwitchToSearchPage(true);
+        navigate('/main');
     }
     return (
         <div className='CoverPage' >
