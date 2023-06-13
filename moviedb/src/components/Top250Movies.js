@@ -5,15 +5,14 @@ import './Top250Movies.css';
 import Grid from "@mui/material/Unstable_Grid2";
 import Item from "@mui/material/Unstable_Grid2";
 
-import {useQuery} from "react-query";
+// import {useQuery} from "react-query";
 import MovieCard from "./MovieCard";
 import {MainComponentContext} from "../context/MainComponentContext";
 import {pageCountEvent, pagesNumber, pagesQuantity} from "../events/PageCounterEvent";
 import {useParams} from "react-router-dom";
 
-const data = JSON.parse(localStorage.getItem('Top250Movies')).items;
-
  const Top250Movies = () =>{
+     let data = JSON.parse(localStorage.getItem('top250Movies')).items;
 
     const mainContext = useContext(MainComponentContext);
     const params = useParams();
@@ -36,6 +35,8 @@ const data = JSON.parse(localStorage.getItem('Top250Movies')).items;
             pageCountEvent.emit(pagesNumber, params.pageNumber);
             currentPage();
         },[responseData, page, params.pageNumber]);
+
+    // useQuery hook
 
     // const { isLoading, error, data } = useQuery(
     //     'top250movies',

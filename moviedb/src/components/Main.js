@@ -3,13 +3,18 @@ import React, {useEffect, useState} from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Item from '@mui/material/Unstable_Grid2';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {Button, Pagination, TextField} from '@mui/material';
+import {Pagination, TextField} from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import './Main.css'
 
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
+
 import {MainComponentContext} from "../context/MainComponentContext";
 import {pageCountEvent, pagesNumber, pagesQuantity} from "../events/PageCounterEvent";
+
+import {useDispatch, useSelector} from "react-redux";
+import {top250moviesLoad} from "../redux/top250moviesLoad";
 
 const theme = createTheme({
     palette: {
@@ -18,7 +23,6 @@ const theme = createTheme({
       },
     },
   });
-
 const top250movies = 'top250movies';
 const main = 'main';
 
@@ -30,6 +34,15 @@ const Main = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    const dispatch = useDispatch();
+    const top250moviesRedux = useSelector(state => state.top250movies);
+
+    useEffect(() => {
+        if(top250moviesRedux.dataLoadState !== 1){
+            turnOnTop250Movies();
+        }
+    },[top250moviesRedux.dataLoadState]);
 
     useEffect(()=>{
         pageCountEvent.addListener(pagesQuantity, cbPagesCount);
@@ -62,9 +75,13 @@ const Main = () => {
         }
     },[location])
 
+    function load() {
+        dispatch( top250moviesLoad ); // looks like a regular dispatch of a regular action
+    }
 
     const turnOnTop250Movies = () => {
-        setForChildren({...forChildren, activeChild: top250movies});}
+        setForChildren({...forChildren, activeChild: top250movies});
+    }
 
     const cbPaginationPageNumber = (number) => {
         setPaginationPage(parseInt(number));
@@ -106,9 +123,14 @@ const Main = () => {
                       alignItems="top">
                     <Item>
                         <ThemeProvider theme={theme}>
-                            <Button color="secondary" size="large" onClick={turnOnTop250Movies}>
+                            <LoadingButton loading={(top250moviesRedux.dataLoadState === 1)}
+                                           loadingIndicator="Loading…"
+                                           variant="outlined"
+                                           color="secondary"
+                                           size="large"
+                                           onClick={load}>
                                 {'Top\xa0250\xa0Movies'}
-                            </Button>
+                            </LoadingButton>
                         </ThemeProvider>
                     </Item>
                 </Grid>
